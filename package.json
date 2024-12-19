@@ -1,0 +1,50 @@
+{
+  "name": "plum",
+  "version": "0.0.1",
+  "packageManager": "pnpm@8.15.9",
+  "description": "A Vue 3 Component Library. Uses TypeScript",
+  "author": "Peter",
+  "licenses": "(MIT OR Apache-2.0)",
+  "homepage": "https://www.xx.com",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/panyu"
+  },
+  "keywords": [
+    "plum",
+    "component Library",
+    "ui framework",
+    "vue",
+    "vite",
+    "ui",
+    "TypeScript"
+  ],
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "module": "es/index.mjs",
+  "unpkg": "dist/index.js",
+  "jsdelivr": "dist/index.js",
+  "types": "es/index.d.ts",
+  "files": [
+    "README.md",
+    "dist",
+    "es",
+    "lib",
+    "volar.d.ts",
+    "web-types.json"
+  ],
+  "scripts": {
+    "start": "pnpm run dev",
+    "dev": "pnpm run clean && pnpm run gen-version && pnpm run gen-volar-dts && set NODE_ENV=development vite",
+    "clean": "rimraf site lib es dist node_modules/plum themes/tusimple/es themes/tusimple/lib",
+    "gen-version": "node scripts/gen-version",
+    "gen-volar-dts": "esbuild scripts/gen-component-declaration.js --bundle --platform=node --tsconfig=tsconfig.esbuild.json | node"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "esbuild": "^0.24.0",
+    "fs-extra": "^11.2.0",
+    "rimraf": "^6.0.1",
+    "vite": "^6.0.4"
+  }
+}
