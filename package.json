@@ -35,16 +35,66 @@
   ],
   "scripts": {
     "start": "pnpm run dev",
-    "dev": "pnpm run clean && pnpm run gen-version && pnpm run gen-volar-dts && set NODE_ENV=development vite",
+    "dev": "pnpm run clean && pnpm run gen-version && pnpm run gen-volar-dts && NODE_ENV=development vite",
     "clean": "rimraf site lib es dist node_modules/plum themes/tusimple/es themes/tusimple/lib",
+    "lint": "pnpm run lint:code && pnpm run lint:type",
+    "lint:code": "eslint \"{src,build,scripts,demo}/**/*.{ts,tsx,js,vue,md}\"",
+    "lint:type": "pnpm run lint:src-type && pnpm run lint:demo-type",
+    "lint:fix": "eslint --fix \"{src,build,scripts,demo}/**/*.{ts,tsx,js,vue,md}\"",
+    "lint:src-code": "tsc -b --force tsconfig.esm.json",
+    "lint:src-demo": "NODE_OPTIONS=--max-old-space-size=4096 vue-tsc -p src/tsconfig.demo.json",
+    "format": "pnpm run format:code && pnpm run format:md && pnpm run lint:fix",
+    "format:code": "prettier --write \"(src|demo)/**/*.(vue|js)\"",
+    "format:md": "prettier --write --parser markdown --prose-wrap never \"(src|demo)/**/*.md\"",
     "gen-version": "node scripts/gen-version",
-    "gen-volar-dts": "esbuild scripts/gen-component-declaration.js --bundle --platform=node --tsconfig=tsconfig.esbuild.json | node"
+    "gen-volar-dts": "esbuild scripts/gen-component-declaration.js --bundle --platform=node --tsconfig=tsconfig.esbuild.json | node",
+    "prepare": "husky",
+    "script-test": "node scripts/test"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^3.12.0",
+    "@babel/generator": "^7.26.3",
+    "@babel/parser": "^7.26.3",
+    "@babel/traverse": "^7.26.4",
     "@rollup/plugin-babel": "^6.0.4",
+    "@types/jest": "^29.5.14",
+    "@vitejs/plugin-vue": "^5.2.1",
     "esbuild": "^0.24.0",
+    "eslint": "^9.17.0",
     "fs-extra": "^11.2.0",
+    "highlight.js": "^11.11.0",
+    "husky": "^9.1.7",
+    "marked": "^15.0.4",
+    "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
-    "vite": "^6.0.4"
+    "vite": "^6.0.4",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vue-tsc": "^2.1.10"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.ts": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.tsx": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.vue": [
+      "prettier --parser=vue --write",
+      "eslint --fix"
+    ],
+    "*.css": [
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write --parser markdown --prose-wrap never",
+      "eslint --fix"
+    ]
   }
 }

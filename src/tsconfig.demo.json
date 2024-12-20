@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "composite": false,
+    "target": "ES6",
+    "rootDir": ".",
+    "module": "CommonJS",
+    "noEmit": true
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.vue"],
+  "exclude": ["./**/*.spec.*"]
+}
